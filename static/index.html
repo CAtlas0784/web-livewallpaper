@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>LOOP — Live Wallpaper Hub</title>
+  <link rel="stylesheet" href="./static/style.css">
+  <script src="./static/config.js"></script>
+  <script defer src="./static/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><span class="brand-mark">↻</span><span>LOOP<small>LIVE WALLPAPER HUB</small></span></a>
+    <div class="connection"><i></i><span id="connectionState">กำลังเชื่อมต่อ…</span></div>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="eyebrow">HOYOPLAY · CUSTOM SCENES · LOOP ANALYSIS</div>
+      <h1>คลัง Live Wallpaper<br>จากวิดีโอและฉากที่ประกอบจาก Sprite</h1>
+      <p>เลือกคลัง Genshin, Zenless Zone Zero หรือ Honkai: Star Rail หรือใส่ลิงก์เว็บอื่นเพื่อจับฉากหลังหลังจากหน้าเว็บประกอบเลเยอร์เสร็จ</p>
+    </section>
+
+    <nav class="mode-tabs" aria-label="โหมดค้นหา">
+      <button class="mode-tab active" type="button" data-mode="catalog">คลัง HoYoPlay</button>
+      <button class="mode-tab" type="button" data-mode="custom">เว็บอื่น / ฉาก Sprite</button>
+    </nav>
+
+    <section id="catalogWorkspace" class="panel catalog-panel">
+      <div class="panel-heading">
+        <div><span class="step">01 / HOYOPLAY CATALOG</span><h2>เลือกเกมและพื้นหลัง</h2></div>
+        <label class="region-select">เซิร์ฟเวอร์
+          <select id="catalogRegion"><option value="global">Global</option><option value="cn">China</option></select>
+        </label>
+      </div>
+      <div class="game-tabs" role="group" aria-label="เกม">
+        <button class="game-tab active" data-game="genshin" type="button">Genshin Impact</button>
+        <button class="game-tab" data-game="zzz" type="button">Zenless Zone Zero</button>
+        <button class="game-tab" data-game="hsr" type="button">Honkai: Star Rail</button>
+      </div>
+      <div id="catalogStatus" class="status" role="status">กำลังโหลดรายการ…</div>
+      <div id="catalogGrid" class="catalog-grid"></div>
+      <p class="hint">เลือกวิดีโอเพื่อบันทึกลง data ของ Hub จากนั้นระบบจะวิเคราะห์ Loop และเปิดตัวอย่างในหน้านี้</p>
+    </section>
+
+    <section id="customWorkspace" class="workspace hidden">
+      <section class="panel scan-panel">
+        <div class="panel-heading"><div><span class="step">01 / CUSTOM WEBSITE</span><h2>ค้นหาจากลิงก์เว็บอื่น</h2></div></div>
+        <form id="scanForm" class="url-form">
+          <label for="pageUrl">URL ของหน้าเว็บ</label>
+          <div class="input-row"><input id="pageUrl" type="url" required placeholder="https://example.com/wallpaper" autocomplete="url"><button id="scanButton" class="primary" type="submit">สแกนหน้าเว็บ</button></div>
+          <label for="sceneSelector" class="selector-label">CSS selector ของฉาก (ไม่บังคับ)</label>
+          <input id="sceneSelector" type="text" placeholder="เช่น .hero-background หรือ #scene" autocomplete="off">
+          <label for="captureSeconds" class="selector-label">เวลาจับฉาก Sprite</label>
+          <select id="captureSeconds"><option value="12">12 วินาที</option><option value="20">20 วินาที</option><option value="30">30 วินาที</option></select>
+        </form>
+        <p class="hint">จะค้นหาวิดีโอ, Canvas, texture และเลเยอร์ขนาดใหญ่ให้เอง ถ้าแอนิเมชันประกอบจาก DOM/Sprite ให้เลือกตัวเลือก “ฉากประกอบ” หรือระบุ selector ของฉากเพื่อจับเป็น WebM</p>
+        <div id="scanStatus" class="status" role="status">ใส่ลิงก์เพื่อเริ่มค้นหา</div>
+        <div id="candidateList" class="candidate-list"></div>
+      </section>
+    </section>
+
+    <section id="previewWorkspace" class="panel preview-panel hidden">
+      <div class="panel-heading"><div><span class="step">02 / LOOP ANALYSIS</span><h2 id="previewTitle">ตรวจจุดวนภาพ</h2></div><span id="analysisBadge" class="badge">ยังไม่มีคลิป</span></div>
+      <div class="preview-frame" id="previewFrame"><div class="empty-state"><span class="play-icon">▶</span><b>ตัวอย่างพื้นหลัง</b><small>เลือกวิดีโอหรือฉากประกอบเพื่อวิเคราะห์</small></div></div>
+      <div id="loopControls" class="loop-controls hidden">
+        <div class="loop-summary"><span>จุดเริ่ม <b id="startLabel">0.00s</b></span><span>จุดจบ <b id="endLabel">0.00s</b></span><span>ความคล้าย <b id="similarityLabel">—</b></span></div>
+        <label class="range-label">เริ่ม <input id="startRange" type="range" min="0" max="1" step="0.01" value="0"></label>
+        <label class="range-label">จบ <input id="endRange" type="range" min="0" max="1" step="0.01" value="1"></label>
+        <div class="loop-actions"><button id="saveToHub" class="primary" type="button">เพิ่มเข้าคลัง</button><button id="exportProject" class="secondary" type="button">ดาวน์โหลด Lively ZIP</button></div>
+        <p class="hint">วิเคราะห์จากเฟรมที่สุ่มอ่าน และตั้งช่วงวนให้ ปรับจุดเริ่ม/จบเองได้ก่อนบันทึก</p>
+      </div>
+      <div id="previewStatus" class="status"></div>
+    </section>
+
+    <section class="library-section">
+      <div class="library-heading"><div><span class="step">03 / YOUR COLLECTION</span><h2>คลัง Live Wallpaper</h2></div><button id="refreshLibrary" class="secondary" type="button">รีเฟรชคลัง</button></div>
+      <div id="libraryGrid" class="library-grid"><div class="library-empty">ยังไม่มีรายการในคลัง</div></div>
+    </section>
+    <footer><span>LOOP · Live Wallpaper Hub</span><span>ไฟล์และคลังอยู่ใน backend ที่ตั้งค่าไว้</span></footer>
+  </main>
+</body>
+</html>
