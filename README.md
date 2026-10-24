@@ -12,4 +12,4 @@ GitHub Pages รองรับเว็บแบบ static; การอ่า�
 
 คลังเกมเริ่มจากตัวอย่างที่ผู้ใช้ให้มา: [HoYoPlay Background](https://hoyogame-background.vercel.app/). สื่อถูกโหลดเข้าที่ backend ในเครื่อง/โฮสต์ ไม่ commit ไฟล์วิดีโอทั้งหมดลง GitHub repository
 
-Repository: https://github.com/CAtlas0784/web-livewallpaper · Gitflow และการตั้งค่า Pages/API: [README_TH.md](README_TH.md)
+Repository: https://github.com/CAtlas0784/web-livewallpaper · GitHub Pages: https://catlas0784.github.io/web-livewallpaper/ · Gitflow และการตั้งค่า API: [README_TH.md](README_TH.md)

@@ -26,12 +26,11 @@ Backend อ่านวิดีโอเป็นตัวอย่าง 6 เ
 ## GitHub และ deployment
 
 - Repository: [CAtlas0784/web-livewallpaper](https://github.com/CAtlas0784/web-livewallpaper)
+- GitHub Pages: [catlas0784.github.io/web-livewallpaper](https://catlas0784.github.io/web-livewallpaper/)
 - Gitflow: `main` เป็น production, `develop` เป็นงานรวม; แตก `feature/<ชื่อ>` จาก `develop` แล้ว PR กลับ `develop`; เตรียมรุ่นผ่าน `release/<รุ่น>` แล้ว PR เข้า `main` ก่อน merge กลับ `develop`; แก้ด่วนแตก `hotfix/<ชื่อ>` จาก `main` แล้ว PR เข้า `main` และ merge กลับ `develop`
-- แนะนำตั้ง branch rules บน GitHub ให้ `main` และ `develop` รับการเปลี่ยนแปลงผ่าน Pull Request และบังคับให้ workflow ที่ต้องการผ่านก่อน merge; การตั้ง branch rules ต้องทำใน Repository Settings เพราะ git push ตั้งค่านี้ให้ไม่ได้
 - GitHub Actions ใน `.github/workflows/pages.yml` deploy หน้าเว็บ `static/` ไป GitHub Pages เมื่อมีการ push เข้า `main`
-- หลัง push ให้เปิด Repository Settings → Pages แล้วเลือก GitHub Actions เป็น Build and deployment source
 - GitHub Pages เป็น static hosting จึงเปิด Chromium/ดึงสื่อจาก arbitrary URL หรือวิเคราะห์เฟรมเองไม่ได้ ต้องมี backend ที่รัน `api.py` แยกต่างหาก
-- ถ้าตั้ง `HUB_API_URL` ใน GitHub repository variables, workflow จะฝัง API URL ลงหน้าเว็บอัตโนมัติ ตั้ง `LOOP_ALLOWED_ORIGINS` ฝั่ง API ให้ตรงกับ origin ของ Pages
+- ตั้ง `HUB_API_URL` ใน GitHub repository variables ให้เป็น URL ของ backend; workflow จะฝังค่านี้ลงหน้าเว็บอัตโนมัติ ตั้ง `LOOP_ALLOWED_ORIGINS` ฝั่ง API ให้ตรงกับ `https://catlas0784.github.io`
 - สำหรับคลังที่แชร์ร่วมกัน ต้อง deploy backend พร้อม persistent disk ที่เก็บโฟลเดอร์ `data/` ไว้ตลอด หากใช้ backend บนเครื่องผู้ใช้ คลังจะอยู่บนเครื่องนั้น
 
 ## Backend deployment
